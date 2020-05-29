@@ -32,56 +32,45 @@ class MainViewController: UIViewController {
         customAlert.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
         customAlert.delegate = self
         self.present(customAlert, animated: true, completion: nil)
-
+        
     }
     
     override func viewDidLoad() {
-            super.viewDidLoad()
-            
-            // Colors for background
-            let colors = [monday, tuesday, wednesday, thursday, friday, saturday, sunday]
-            self.view.backgroundColor = colors.randomElement()
-            
-            // Show number of tasks left in array
-            if let tasksLeft = (children[0] as? TasksTableViewController)?.tasks.count {
-                numOfTasks.text = String(tasksLeft)
-                numOfTasks.textColor = .white
-            }
-            
-            // Get current date in hours
-            let dateFormatter: DateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "HH:mm"
-            let now = Date()
-            let selectedDate = dateFormatter.string(from: now)
-            
-            // Remove all items in array every day
-            if selectedDate == "00:00" {
-                (children[0] as? TasksTableViewController)?.tasks.removeAll()
-            }
-            
-            // Animation
-            numOfTasks.alpha = 0
-            addTask.alpha = 0
-            UIView.animate(withDuration: 1, animations: { self.numOfTasks.alpha = 1 })
-            UIView.animate(withDuration: 1, animations: { self.addTask.alpha = 1 })
+        super.viewDidLoad()
+        
+        // Colors for background
+        let colors = [monday, tuesday, wednesday, thursday, friday, saturday, sunday]
+        self.view.backgroundColor = colors.randomElement()
+        
+        // Show number of tasks left in array
+        if let tasksLeft = (children[0] as? TasksTableViewController)?.tasks.count {
+            numOfTasks.text = String(tasksLeft)
+            numOfTasks.textColor = .white
         }
         
+        // Animation
+        numOfTasks.alpha = 0
+        addTask.alpha = 0
+        UIView.animate(withDuration: 1, animations: { self.numOfTasks.alpha = 1 })
+        UIView.animate(withDuration: 1, animations: { self.addTask.alpha = 1 })
     }
+    
+}
 
-    extension MainViewController: CustomAlertViewDelegate {
-        
-        // Update array with new entry if its not empty
-        func okButtonTapped(textFieldValue: String) {
-            if !textFieldValue.isEmpty {
-                self.data = textFieldValue
-                let child = (children[0] as? TasksTableViewController)
-                child?.tasks.insert(data, at: 0)
-                child?.tableView.beginUpdates()
-                child?.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .top)
-                child?.tableView.endUpdates()
-            }
-        }
-        
-        func cancelButtonTapped() {
+extension MainViewController: CustomAlertViewDelegate {
+    
+    // Update array with new entry if its not empty
+    func okButtonTapped(textFieldValue: String) {
+        if !textFieldValue.isEmpty {
+            self.data = textFieldValue
+            let child = (children[0] as? TasksTableViewController)
+            child?.tasks.insert(data, at: 0)
+            child?.tableView.beginUpdates()
+            child?.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .top)
+            child?.tableView.endUpdates()
         }
     }
+    
+    func cancelButtonTapped() {
+    }
+}
