@@ -11,4 +11,4 @@ Simple, no bs task manager (currently for personal use) based on "ZTD" - time ma
 Demo
 ----
 
-<image src="/demo.gif" width="40%">
+<image src="/demo.gif" width="30%">
